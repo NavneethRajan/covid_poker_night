@@ -7,8 +7,6 @@ object Rules extends App {
   val suits = "♠♥♦♣"
   val ranks = (2 to 10) ++ "JQKA"
 
-  println(ranks)
-
   val deck =
     for {
       suit <- suits
@@ -29,10 +27,24 @@ object Rules extends App {
   pile = pile.drop(2)
 
   val river = pile.take(5)
+  pile = pile.drop(5)
 
   val workingHand = hand ++ river
 
   println(workingHand)
   println(workingHand.combinations(5).toSeq)
 
+  workingHand.combinations(5).map(Hand(_)).toSeq.sorted
 }
+
+sealed trait Hand extends Ordered[Hand]
+object Hand {
+  def apply(cards: Seq[String]): Hand = ???
+}
+
+case class HighCard(card: String) extends Hand {
+
+  def compare(that: Hand): Int = ???
+
+}
+
